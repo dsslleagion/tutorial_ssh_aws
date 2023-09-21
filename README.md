@@ -76,3 +76,77 @@ ls</code></pre>
 
 </body>
 </html>
+
+<!DOCTYPE html>
+<html>
+<head>
+ 
+</head>
+<body>
+
+<h1>Tutorial de Configuração de FTP (Compartilhamento de Arquivos)</h1>
+
+<p>Para bloquear o upload de arquivos via FTP dos usuários estagiário, administrador e vendedor, siga os passos abaixo:</p>
+
+<h2>Passo 1: Configurar Restrições de Tempo</h2>
+<p>Abra o arquivo de configuração de restrições de tempo com o comando:</p>
+
+<pre><code>sudo vim /etc/security/time.conf</code></pre>
+
+<p>Comando da restrição de tempo</p>
+
+![Imagem5](https://github.com/dsslleagion/tutorial_ssh_ftp_aws/assets/88494278/c89e3650-8225-48d9-9071-09c263ff8449)
+
+
+<h2>Passo 2: Configuração do FTP - Instalação do ProFTPD</h2>
+<p>Atualize os pacotes e instale o ProFTPD com os seguintes comandos:</p>
+
+<pre><code>sudo apt update</code></pre>
+<pre><code>sudo apt install proftpd</code></pre>
+
+<p>Inicie o serviço ProFTPD:</p>
+
+<pre><code>sudo systemctl start proftpd</code></pre>
+
+<p>Habilite o serviço para iniciar automaticamente durante a inicialização:</p>
+
+<pre><code>sudo systemctl enable proftpd</code></pre>
+
+<h2>Passo 3: Configuração do PAM para FTP</h2>
+<p>Abra o arquivo de configuração PAM para o ProFTPD:</p>
+
+<pre><code>sudo vim /etc/pam.d/proftpd</code></pre>
+
+<p>No final do arquivo, adicione a seguinte linha para aplicar as restrições de tempo:</p>
+
+<pre><code>account required pam_time.so</code></pre>
+
+<h2>Passo 4: Configuração do ProFTPD</h2>
+<p>Abra o arquivo de configuração do ProFTPD:</p>
+
+<pre><code>sudo vim /etc/proftpd/proftpd.conf</code></pre>
+
+<p>Descomente a linha que define a ordem de autenticação, deixando-a assim:</p>
+
+<pre><code>AuthOrder mod_auth_pam.c* mod_auth_unix.c</code></pre>
+
+<p>Após fazer essas alterações, reinicie o serviço ProFTPD para aplicar as configurações:</p>
+
+<pre><code>sudo systemctl restart proftpd</code></pre>
+
+<h2>Conclusão</h2>
+<p>Agora você configurou o FTP (compartilhamento de arquivos) com restrições de tempo e bloqueio de upload de arquivos para os usuários estagiário, administrador e vendedor.</p>
+
+<h2>Logado</h2>
+
+![Imagem6](https://github.com/dsslleagion/tutorial_ssh_ftp_aws/assets/88494278/4a89d2f8-c08b-470e-bd04-5ef67dfdc653)
+
+
+<h2>Deslogado</h2>
+
+![Imagem7](https://github.com/dsslleagion/tutorial_ssh_ftp_aws/assets/88494278/5771d5f4-fb7c-408c-b139-1b6cf771cd73)
+
+
+</body>
+</html>
+
